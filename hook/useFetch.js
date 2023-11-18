@@ -14,11 +14,8 @@ const useFetch = (endpoint, query) => {
       'X-RapidAPI-Key': '8f09ead0e3msh64986c6aee50f72p10d332jsn1996743b23e7',
       'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
     },
-    params: {
-      query: 'Python developer in Texas, USA',
-      page: '1',
-      num_pages: '1'
-    },
+    params: { ...query },
+
     };
 
 
@@ -28,7 +25,6 @@ const useFetch = (endpoint, query) => {
     setIsLoading(true);
     try {
       const response = await axios.request(options);
-      console.log(response);
       setData(response.data.data);
       setIsLoading(false);
     } catch (error) {
@@ -49,7 +45,6 @@ const useFetch = (endpoint, query) => {
     setIsLoading(true);
     fetchData();
   };
-  console.log({ data, isLoading, error, refetch });
   return { data, isLoading, error, refetch };
 };
 
