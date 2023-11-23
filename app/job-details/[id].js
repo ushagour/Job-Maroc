@@ -24,19 +24,48 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "../../components/home/nearby/nearbyjobs.style";
 
 const tabs = ["About", "Qualifications", "Responsibilities"];
-const [activeTab,setActiveTab]=useState(tabs[0])
-
-
 
 
 
 const JobDetails = () => {
     const params = useSearchParams();
     const router = useRouter();
+    const [activeTab,setActiveTab]=useState(tabs[0])
   
+
     const { data, isLoading, error, refetch } = useFetch("job-details", {
       job_id: params.id,
     });
+
+
+
+ const displayTabContent = () => {
+    switch (activeTab) {
+      case "Qualifications":
+        return (
+          <Specifics
+            title='Qualifications'
+            points={data[0].job_highlights?.Qualifications ?? ["N/A"]}
+          />
+        );
+
+      case "About":
+        return (
+          <JobAbout info={data[0].job_description ?? "No data provided"} />
+        );
+
+      case "Responsibilities":
+        return (
+          <Specifics
+            title='Responsibilities'
+            points={data[0].job_highlights?.Responsibilities ?? ["N/A"]}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
     return (
     <SafeAreaView style={{flex:1,backgroundColor:COLORS.lightWhite}}>
 
@@ -91,6 +120,9 @@ const JobDetails = () => {
                         
                         
                         />
+
+                        {displayTabContent()}
+
                         </View>
                     )
                     }
