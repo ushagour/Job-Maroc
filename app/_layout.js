@@ -15,7 +15,6 @@ const Layout = () => {
     DMMedium: require("../assets/fonts/DMSans-Medium.ttf"),
     DMRegular: require("../assets/fonts/DMSans-Regular.ttf"),
   });
-  console.log(fontsLoaded);
   if (!fontsLoaded) {
     return null;
   }
