@@ -3,7 +3,7 @@ import { View, Text,TouchableOpacity,FlatList, TextInput,Image } from 'react-nat
 import { useRouter } from 'expo-router'
 import styles from './welcome.style'
 import  {icons, SIZES} from "../../../constants"
-const Welcome = () => {
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
 
   const router =useRouter();
   const jobTypes =["full-time","Part-time","Freelace"];
@@ -13,18 +13,19 @@ const Welcome = () => {
       <View style={styles.container}>
 
         <Text style={styles.userName}>Hello ALI</Text>
-        <Text style={styles.welcomeMessage}>Find your perfect Cour</Text>
+        <Text style={styles.welcomeMessage}>Find your perfect Job</Text>
       </View>
 
       <View style={styles.searchContainer}>
         <View style={styles.searchWrapper}>
         <TextInput
             style={styles.searchInput}
-            onChangeText={(text) => console.log(text)}
+            value={searchTerm}
+            onChangeText={(text) => setSearchTerm(text)}
             placeholder='What are you looking for?'
           />
         </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={()=>{}}>
+        <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
 
           <Image source={icons.search}
           resizeMode ="contain"
