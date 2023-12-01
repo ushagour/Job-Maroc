@@ -12,21 +12,22 @@ import { COLORS, SIZES } from "../../../constants";
 import NearbyjobCard from "../../common/cards/nearby/NearbyJobCard";
 import useFetch from "../../../hook/useFetch";
 
-const Nearbyjobs = () => {
+const Nearbyjobs = (props) => {
   const router = useRouter();
 
   const { data, isLoading, error } = useFetch("search", {
-    query: "Java  developer",
+    query: `NearBay jobs for software developers in ${props.city}`,
     num_pages: "1",
+    radius: '1',
+
   });
 
-  console.log("Data ali:", data);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>NearBy jobs</Text>
-        <TouchableOpacity>
-          <Text style={styles.headerBtn}>Show all</Text>
+        <TouchableOpacity onPress={()=>{router.push(`/search/NearBay jobs for software developers in ${props.city}`)}} >
+          <Text style={styles.headerBtn} >Show all</Text>
         </TouchableOpacity>
       </View>
 

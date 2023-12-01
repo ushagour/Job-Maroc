@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
@@ -15,6 +16,8 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
+    <> 
+     <StatusBar style="dark" />
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
@@ -24,7 +27,7 @@ const Home = () => {
             <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={images.profile} dimension='100%' />
+            <ScreenHeaderBtn iconUrl={images.profile} dimension='70%' />
           ),
           headerTitle: "",
         }}
@@ -44,9 +47,12 @@ const Home = () => {
             }}
             />
           <Popularjobs
+          country="Morocco"
+
           />
           <Nearbyjobs
-          
+          city="Rabat"
+
           
           />
 
@@ -55,6 +61,8 @@ const Home = () => {
       </ScrollView>
 
 </SafeAreaView>
+</>
+  
   )
 }
  export default Home
