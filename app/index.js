@@ -27,7 +27,7 @@ const Home = () => {
             <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={images.profile} dimension='70%' />
+            <ScreenHeaderBtn iconUrl={images.profile} dimension='70%' HandelOnPress={()=>{ router.push(`/profile/profile`)}} />
           ),
           headerTitle: "",
         }}
