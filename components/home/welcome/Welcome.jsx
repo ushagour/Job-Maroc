@@ -3,8 +3,12 @@ import { View, Text,TouchableOpacity,FlatList, TextInput,Image } from 'react-nat
 import { useRouter } from 'expo-router'
 import styles from './welcome.style'
 import  {icons, SIZES} from "../../../constants"
-const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
+import { useAuth } from  '../../../firebase/AuthContext';
 
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
+  const { user, signIn, signOut } = useAuth();
+
+      // console.log(user);
   const router =useRouter();
   const jobTypes =["full-time","Part-time","Freelace"];
   const [activeJobType,setactiveJobType]= useState("full-time");
@@ -12,7 +16,7 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
     <View>
       <View style={styles.container}>
 
-        <Text style={styles.userName}>Hello ALI</Text>
+        {/* <Text style={styles.userName}>Hello  {state.user} </Text> */}
         <Text style={styles.welcomeMessage}>Find your perfect Job</Text>
       </View>
 

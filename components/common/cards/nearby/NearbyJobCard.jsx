@@ -8,7 +8,6 @@ const NearbyJobCard = ({ job, handleNavigate,handleLikeButtonPress,isLiked }) =>
 
   
 
-console.log(job);
 
   return (
     <TouchableOpacity style={styles.container} onPress={handleNavigate}>

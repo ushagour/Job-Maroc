@@ -6,7 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   ActivityIndicator,
-  RefreshControl,
+  RefreshControl,Share 
 } from "react-native";
 
 import {
@@ -37,7 +37,16 @@ const JobDetails = () => {
       job_id: params.id,
     });
 
-
+    // const handleShare = async () => {
+    //   try {
+    //     console.log("dkhlt");
+    //     await Share.share({
+    //       message: contentToShare,
+    //     });
+    //   } catch (error) {
+    //     console.error('Error sharing:', error.message);
+    //   }
+    // };
 
  const displayTabContent = () => {
     switch (activeTab) {
@@ -85,7 +94,8 @@ const JobDetails = () => {
                     headerRight:()=>(
                         <ScreenHeaderBtn
                         iconUrl={icons.share}
-                        dimension="60%"                        
+                        dimension="60%"     
+                        // HandelOnPress={handleShare}
                         />
                     ),
                     headerTitle:''
