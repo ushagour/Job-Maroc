@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View,Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 import { COLORS, icons, images, SIZES } from "../constants";
@@ -10,14 +10,20 @@ import {
   ScreenHeaderBtn,
   Welcome,
 } from "../components";
+import { useAuth } from  '../firebase/AuthContext';
 
 const Home = () => {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("");
+  const { state } = useAuth();
+
+
+  // console.log(""+state.uid);
 
   return (
     <> 
      <StatusBar style="dark" />
+
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
@@ -27,7 +33,8 @@ const Home = () => {
             <ScreenHeaderBtn iconUrl={icons.menu} dimension='60%' />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={images.profile} dimension='70%' HandelOnPress={()=>{ router.push(`/profile/profile`)}} />
+            <ScreenHeaderBtn iconUrl={images.profile} dimension='70%'
+             HandelOnPress={()=>{ router.push(`/profile/profile`)}} />
           ),
           headerTitle: "",
         }}
