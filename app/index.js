@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView, View,Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 import { COLORS, icons, images, SIZES } from "../constants";
+
 import {
   Nearbyjobs,
   Popularjobs,
@@ -15,10 +16,9 @@ import { useAuth } from  '../firebase/AuthContext';
 const Home = () => {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("");
-  const { state } = useAuth();
 
 
-  // console.log(""+state.uid);
+  // console.log("con"+user.uid);
 
   return (
     <> 
