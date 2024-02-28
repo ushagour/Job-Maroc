@@ -1,5 +1,6 @@
 
 import { useRouter } from "expo-router";
+
 import {
   View,
   Text,
@@ -11,14 +12,20 @@ import styles from "./nearbyjobs.style";
 import { COLORS, SIZES } from "../../../constants";
 import NearbyjobCard from "../../common/cards/nearby/NearbyJobCard";
 import useFetch from "../../../hook/useFetch";
-import { useCallback, useState } from "react";
+import { useCallback,useEffect, useState } from "react";
+import { addDoc, collection,doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { app, auth } from '../../../firebase/config';
+import { useAuth } from  '../../../firebase/AuthContext';
+import { useLikedJob } from  '../../../hook/context/LikedJobContext';
 
 const Nearbyjobs = (props) => {
   const router = useRouter();
-
   // Initialize likedJobs as an object with job_id as keys
   const [likedJobs, setLikedJobs] = useState({});
+  const firestore = getFirestore(app);
+  const { user, signIn, signOut } = useAuth();
 
+  const { updateOrCreateLikedJobs} =  useLikedJob();
 
   const { data, isLoading, error } = useFetch("search", {
     query: `NearBay jobs for software developers in ${props.city}`,
@@ -27,32 +34,21 @@ const Nearbyjobs = (props) => {
   });
 
   const handleLikeButtonPress = (jobId) => {
+  const userId = user ? user.uid : '';
     // Toggle the liked status for the specific job
     setLikedJobs((prevLikedJobs) => ({
       ...prevLikedJobs,
       [jobId]: !prevLikedJobs[jobId],
     }));
 
+    // console.log("ali-----------------------------------"+likedJobs);
     // Save liked job to the database (if needed)
-    saveLikedJobs(jobId);
+    // updateOrCreateLikedJobs(,user);
+    updateOrCreateLikedJobs(userId,jobId);
   };
-
-  const saveLikedJobs = async (jobId) => {
-    try {
-      
-      console.log(`Job ${jobId} liked`);
-     useEffect (() => {
-           addDoc(collection (FIRESTORE_DB, 'todos'), { title: 'I am a test', done: false });
-            }, []);
-
-
-      //send updates to the database 
-      // Optionally, make your database save request here
-    } catch (error) {
-      console.error('Error saving liked job:', error.message);
-    }
-  };
-
+  
+ 
+   
 
   return (
     <View style={styles.container}>
@@ -70,16 +66,17 @@ const Nearbyjobs = (props) => {
           <Text>Something went wrong</Text>
         ) : (
           data?.map((job)=>{
-            return( <NearbyjobCard
+            return( 
+              
+            <NearbyjobCard
             job={job}
             key={`nearby-job-${job?.job_id}`}
             handleNavigate={() => router.push(`/job-details/${job.job_id}`)}
             handleLikeButtonPress={()=>{handleLikeButtonPress(job?.job_id)}}
             isLiked={likedJobs[job?.job_id] || false}//the prop isliked containe the value true or false
 
-          />)
-
-
+          />
+          )
           }
            
           )
