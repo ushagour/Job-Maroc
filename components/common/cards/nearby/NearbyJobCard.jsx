@@ -2,8 +2,13 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import styles from "./nearbyjobcard.style";
 import { checkImageURL } from "../../../../helpers";
+import { images } from "../../../../constants";
 
-const NearbyJobCard = ({ job, handleNavigate }) => {
+const NearbyJobCard = ({ job, handleNavigate,handleLikeButtonPress,isLiked }) => {
+
+  
+
+
   return (
     <TouchableOpacity style={styles.container} onPress={handleNavigate}>
       <TouchableOpacity style={styles.logoContainer}>
@@ -25,6 +30,14 @@ const NearbyJobCard = ({ job, handleNavigate }) => {
 
         <Text style={styles.jobType}>{job?.job_employment_type}</Text>
       </View>
+      <TouchableOpacity onPress={handleLikeButtonPress} style={styles.likeButton}>
+        <Image
+          source={isLiked ? require('../../../../assets/icons/heart.png') : require('../../../../assets/icons/heart-ol.png')}
+          style={styles.likeIcon}
+        />
+
+      </TouchableOpacity>
+
     </TouchableOpacity>
   );
 };

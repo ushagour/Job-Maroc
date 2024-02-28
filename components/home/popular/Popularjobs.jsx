@@ -13,14 +13,13 @@ import { COLORS, SIZES } from "../../../constants";
 import PopularJobCard from "../../common/cards/popular/PopularJobCard";
 import useFetch from "../../../hook/useFetch";
 
-const Popularjobs = () => {
+const Popularjobs = (props) => {
   const router = useRouter();
 
 
   const { data, isLoading, error } = useFetch("search", {
-    query: "React developer",
+    query: `popular software developers in ${props.country}`,
     page: '1',
-    num_pages: '1'
   });
 
 
@@ -34,11 +33,22 @@ const Popularjobs = () => {
     setSelectedJob(item.job_id);
   };
 
+
+
+
+
+
+
+  
+  const handelShowAllPress = (searchTerm) => {
+    router.push(`/search/${searchTerm}`)
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Popular jobs</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{handelShowAllPress(`popular software developers in ${props.country}`)}} >
           <Text style={styles.headerBtn}>Show all</Text>
         </TouchableOpacity>
       </View>
