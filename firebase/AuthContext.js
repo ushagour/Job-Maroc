@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from './config'; // Make sure to replace './firebase' with the correct path to your Firebase configuration
 import {  useRouter } from 'expo-router';
-import { getDoc, getFirestore, doc } from 'firebase/firestore';
+import { getDoc, getFirestore, doc,getDocs,collection,query,where } from 'firebase/firestore';
 import { app } from '../firebase/config';
 
 
@@ -14,15 +14,14 @@ export const AuthProvider = ({ children }) => {
   const [likedJobs, setLikedJobs] = useState("");
   const [loading, setLoading] = useState(true);
 
-
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       // Check if userAuth exists and is not null
       if (userAuth) {
         // If userAuth exists, set the user object to the state
-        setUser(userAuth);
         getLikedJobs(userAuth)
+        getUserProfile(userAuth)
+
 
       }
     });
@@ -35,10 +34,32 @@ export const AuthProvider = ({ children }) => {
 
 
 
+
+  const handelLogingGoogle = async () => {
+    try {
+      const { idToken } = await auth().signInWithGoogle();
+      // Send idToken to your server for authentication
+      console.log('Google sign-in successful!');
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const signInWithGitHub = async () => {
+    try {
+      const { idToken } = await auth().signInWithGitHubToken('GITHUB_ACCESS_TOKEN');
+      // Send idToken to your server for authentication
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const signIn = async (email, password) => {
     try {
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
-      setUser(userCredential.user);
+      getUserProfile(userCredential.user)
       getLikedJobs(userCredential.user)
 
     } catch (error) {
@@ -52,7 +73,6 @@ export const AuthProvider = ({ children }) => {
   const getLikedJobs = async (user) => {
     try {
       const userId = user.uid;
-      console.log(userId);
       const firestore = getFirestore(app);
       const userDocRef = doc(firestore,'likedJobs', userId);
       const userDocSnap = await getDoc(userDocRef);
@@ -62,7 +82,6 @@ export const AuthProvider = ({ children }) => {
         setLikedJobs(likedJobsData.join(","));
 
       } else {
-        console.log("not exsisted");
         console.log("No liked jobs found for this user.");
         setLikedJobs("");
  
@@ -75,29 +94,27 @@ export const AuthProvider = ({ children }) => {
   };
 
  
-  // const getUserProfile = async (user) => {
-  //   try {
-  //     const userId = user.uid;
-  //     const firestore = getFirestore(app);
-  //     const usersCollectionRef = collection(firestore, 'users');
-  //     const querySnapshot = await getDocs(query(usersCollectionRef, where('uid', '==', userId)));
+  const getUserProfile = async (user) => {
+    try {
+      const userId = user.uid;
+      const firestore = getFirestore(app);
+      const usersCollectionRef = collection(firestore, 'users');
+      const querySnapshot = await getDocs(query(usersCollectionRef, where('uid', '==', userId)));
   
-  //     if (!querySnapshot.empty) {
-  //       // Assuming there's only one document with the matching UID
-  //       const userDocSnap = querySnapshot.docs[0];
-  //       const userData = userDocSnap.data();
-  //       setUserProfile(userData);
-  //       console.log(userData);
-  //     } else {
-  //       console.log("User profile not found.");
-  //       setUserProfile(null);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching user profile:', error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (!querySnapshot.empty) {
+        // Assuming there's only one document with the matching UID
+        const userDocSnap = querySnapshot.docs[0];
+        const userData = userDocSnap.data();
+        setUser(userData);
+        console.log(userData);    
+      } else {
+        console.log("User profile not found.");
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    } 
+  };
   
 
 
@@ -113,7 +130,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut,likedJobs}}>
+    <AuthContext.Provider value={{ user, signIn, signOut,likedJobs,handelLogingGoogle}}>
       {children}
     </AuthContext.Provider>
   );

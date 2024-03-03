@@ -6,8 +6,8 @@ import  {icons, SIZES} from "../../../constants"
 import { useAuth } from  '../../../firebase/AuthContext';
 
 const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
-  const { user } = useAuth();
-  const userEmail = user ? user.email : '';
+  const { user,profile } = useAuth();
+  const displayName = user ? user.displayName : '';
 
     
   const router =useRouter();
@@ -18,8 +18,10 @@ const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
   return (
     <View>
       <View style={styles.container}>
+{user?(
+          <Text style={styles.userName}>Hello  {displayName} </Text>
 
-        <Text style={styles.userName}>Hello  {userEmail} </Text>
+):null}
         <Text style={styles.welcomeMessage}>Find your perfect Job</Text>
       </View>
 
