@@ -13,11 +13,10 @@ export const LikedJobProvider = ({ children }) => {
 
     const updateOrCreateLikedJobs = async (uid, newLikedJobId) => {
         try {
-
-            const userDocRef = doc(firestore, 'likedJobs',  uid);
-            const userDocSnap = await getDoc(userDocRef);
-            console.log("1=="+uid);
-      
+            console.log(newLikedJobId);
+          const userDocRef = doc(firestore, 'likedJobs',  uid);
+          const userDocSnap = await getDoc(userDocRef);
+          
           if (userDocSnap.exists()) {
             const currentLikedJobs = userDocSnap.data().likedJobs || [];
          
@@ -25,7 +24,6 @@ export const LikedJobProvider = ({ children }) => {
                 if (!currentLikedJobs.includes(newLikedJobId)) {
                   // Add the new liked job ID to the array
                   const updatedLikedJobs = [...currentLikedJobs, newLikedJobId];
-
                   // Update the Firestore document with the updated array
                   await setDoc(userDocRef, { likedJobs: updatedLikedJobs });
 

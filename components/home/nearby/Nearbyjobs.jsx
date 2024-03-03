@@ -21,11 +21,7 @@ import { useLikedJob } from  '../../../hook/context/LikedJobContext';
 const Nearbyjobs = (props) => {
   const router = useRouter();
   // Initialize likedJobs as an object with job_id as keys
-  const [likedJobs, setLikedJobs] = useState({});
-  const firestore = getFirestore(app);
-  const { user, signIn, signOut } = useAuth();
 
-  const { updateOrCreateLikedJobs} =  useLikedJob();
 
   const { data, isLoading, error } = useFetch("search", {
     query: `NearBay jobs for software developers in ${props.city}`,
@@ -33,19 +29,7 @@ const Nearbyjobs = (props) => {
     radius: '1',
   });
 
-  const handleLikeButtonPress = (jobId) => {
-  const userId = user ? user.uid : '';
-    // Toggle the liked status for the specific job
-    setLikedJobs((prevLikedJobs) => ({
-      ...prevLikedJobs,
-      [jobId]: !prevLikedJobs[jobId],
-    }));
 
-    // console.log("ali-----------------------------------"+likedJobs);
-    // Save liked job to the database (if needed)
-    // updateOrCreateLikedJobs(,user);
-    updateOrCreateLikedJobs(userId,jobId);
-  };
   
  
    
@@ -72,8 +56,6 @@ const Nearbyjobs = (props) => {
             job={job}
             key={`nearby-job-${job?.job_id}`}
             handleNavigate={() => router.push(`/job-details/${job.job_id}`)}
-            handleLikeButtonPress={()=>{handleLikeButtonPress(job?.job_id)}}
-            isLiked={likedJobs[job?.job_id] || false}//the prop isliked containe the value true or false
 
           />
           )
