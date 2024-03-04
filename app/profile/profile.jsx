@@ -18,28 +18,19 @@ const Profile = () => {
   
 
   useEffect(() => {
-    // ()=>{
-  
-    // }
+    setFinalData(likedJobs)
 
 
-    if (user!== null) {
-      setFinalData(likedJobs)
-
-
-     console.log("alii data"+likedJobs); 
-
-     
-    } else {
-      router.push(`/profile/login/Login`);
-    }
   }, []);
       
+
     const { data, isLoading, error } =  useFetch('job-details', {
-      job_id: likedJobs,
+      job_id: likedJobs?likedJobs:"",
       extended_publisher_details: 'false'
       // extended_publisher_details: "false", job_id: "f34DpFVUZ86jgBZ-AAAAAA=="
     });
+  
+
 
     // const handleRefresh = () => {
     //   setIsFetching(true);
@@ -76,17 +67,13 @@ const Profile = () => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ padding: SIZES.medium }}>
-          {user ? (
+       
             <Company
-              companyLogo={user.avatarURL + '.jpg'}
-              jobTitle={user.name}
+              companyLogo={user.avatar}
+              jobTitle={user.displayName}
               companyName={user.email}
             />
-          ) : (
-            <View>
-              <Button title="Login" onPress={() => router.push(`/profile/login/Login`)} />
-            </View>
-          )}
+    
         </View>
       </ScrollView>
       {isLoading ? (
