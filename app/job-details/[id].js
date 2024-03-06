@@ -37,16 +37,29 @@ const JobDetails = () => {
       job_id: params.id,
     });
 
-    // const handleShare = async () => {
-    //   try {
-    //     console.log("dkhlt");
-    //     await Share.share({
-    //       message: contentToShare,
-    //     });
-    //   } catch (error) {
-    //     console.error('Error sharing:', error.message);
-    //   }
-    // };
+    const handleShare = async () => {
+      try {
+        const result = await Share.share({
+          message: data[0].job_title,
+          url: data[0]?.job_google_link,
+          title: data[0].employer_name,
+        });
+    
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            console.log(result.activityType);
+            // Shared via activity type Nb:here we can add a tras functionality 
+          } else {
+            // Shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // Dismissed
+        }
+      } catch (error) {
+        console.error('Error sharing:', error.message);
+      }
+    };
+    
 
  const displayTabContent = () => {
     switch (activeTab) {
@@ -95,7 +108,7 @@ const JobDetails = () => {
                         <ScreenHeaderBtn
                         iconUrl={icons.share}
                         dimension="60%"     
-                        // HandelOnPress={handleShare}
+                        HandelOnPress={handleShare}
                         />
                     ),
                     headerTitle:''
