@@ -1,4 +1,4 @@
-const RapidApiKey = '57d5b2dfcfmsh432bfd2a048142fp1e60a8jsn942989e1cceb';
+const RapidApiKey = '44558ffae5mshe1a919d33295109p1c4252jsnf0f358372cd3';
 
 
 export {RapidApiKey};

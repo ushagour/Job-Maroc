@@ -14,6 +14,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  LoginBtn:{
+    flex: 1,
+    width: 55,
+    height: 55,
+    backgroundColor: COLORS.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: SIZES.medium,
+    borderRadius: SIZES.medium,
+
+  },
   likeBtn: {
     width: 55,
     height: 55,
@@ -30,7 +41,7 @@ const styles = StyleSheet.create({
   },
   applyBtn: {
     flex: 1,
-    backgroundColor: "#FE7654",
+    backgroundColor: COLORS.primary,
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
