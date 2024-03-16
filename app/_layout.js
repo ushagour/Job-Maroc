@@ -1,6 +1,8 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 // import * as SplashScreen from "expo-splash-screen";
+import { AuthProvider } from '../firebase/AuthContext';
+import { LikedJobProvider } from '../hook/context/LikedJobContext';
 
 // SplashScreen.preventAutoHideAsync();
 
@@ -20,7 +22,11 @@ const Layout = () => {
   }
 
   return (
-     <Stack />
+    <AuthProvider>
+      <LikedJobProvider>
+        <Stack />
+      </LikedJobProvider>
+    </AuthProvider>
 
   )
 };

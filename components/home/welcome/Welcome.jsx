@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text,TouchableOpacity,FlatList, TextInput,Image } from 'react-native'
 import { useRouter } from 'expo-router'
 import styles from './welcome.style'
 import  {icons, SIZES} from "../../../constants"
-const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
+import { useAuth } from  '../../../firebase/AuthContext';
 
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
+  const { user,profile } = useAuth();
+  const displayName = user ? user.displayName : '';
+
+    
   const router =useRouter();
   const jobTypes =["full-time","Part-time","Freelace"];
   const [activeJobType,setactiveJobType]= useState("full-time");
+
+
   return (
     <View>
       <View style={styles.container}>
+{user?(
+          <Text style={styles.userName}>Hello  {displayName} </Text>
 
-        <Text style={styles.userName}>Hello ALI</Text>
+):null}
         <Text style={styles.welcomeMessage}>Find your perfect Job</Text>
       </View>
 

@@ -2,8 +2,42 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import styles from "./nearbyjobcard.style";
 import { checkImageURL } from "../../../../helpers";
+import { images } from "../../../../constants";
+import { useAuth } from  '../../../../firebase/AuthContext';
+import { useCallback,useEffect, useState } from "react";
+import { addDoc, collection,doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { app } from '../../../../firebase/config';
+import { useLikedJob } from  '../../../../hook/context/LikedJobContext';
+
 
 const NearbyJobCard = ({ job, handleNavigate }) => {
+
+    const { updateOrCreateLikedJobs} =  useLikedJob();
+    const { user} = useAuth();
+    const firestore = getFirestore(app);
+    const [islikedJob,  setisLikedJob] = useState(false);
+
+    const handleLikeButtonPress = (jobId) => {
+      const userId = user ? user.uid : '';
+      console.log(jobId);
+        // Toggle the liked status for the specific job
+        // setLikedJobs((prevLikedJobs) => ({
+        //   ...prevLikedJobs,
+        //   [jobId]: !prevLikedJobs[jobId],
+        // }));
+       
+        if(islikedJob) {
+          setisLikedJob(false)
+        }else{
+          setisLikedJob(true)
+
+        }
+    
+        // Save liked job to the database (if needed)
+        updateOrCreateLikedJobs(userId,jobId);
+      };
+
+
   return (
     <TouchableOpacity style={styles.container} onPress={handleNavigate}>
       <TouchableOpacity style={styles.logoContainer}>
@@ -25,6 +59,24 @@ const NearbyJobCard = ({ job, handleNavigate }) => {
 
         <Text style={styles.jobType}>{job?.job_employment_type}</Text>
       </View>
+    
+{/*
+ps1.
+ By wrapping the handleLikeButtonPress function call in an arrow function (() => ...),
+ you ensure that it's only invoked when the TouchableOpacity is pressed,
+  rather than being called on every render.
+  ps.use this jsx synthax insted of (user ? )check 
+  */}
+
+{user && 
+      (<TouchableOpacity onPress={()=>{handleLikeButtonPress(job)}} style={styles.likeButton}>
+        <Image
+          source={islikedJob ? require('../../../../assets/icons/heart.png') : require('../../../../assets/icons/heart-ol.png')}
+          style={styles.likeIcon}
+        />
+
+      </TouchableOpacity>)
+          }
     </TouchableOpacity>
   );
 };

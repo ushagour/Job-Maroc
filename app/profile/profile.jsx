@@ -8,7 +8,10 @@ import { Stack, useRouter } from 'expo-router';
 import { COLORS, icons, images, SIZES } from '../../constants';
 import  useFetch  from '../../hook/useFetch'; // Assuming useFetch is properly exported from useFetch.js
 import { ScreenHeaderBtn, Company, NearbyJobCard } from '../../components';
+<<<<<<< HEAD
 
+=======
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 const Profile = () => {
   const router = useRouter();
   const [finalData, setFinalData] = useState();
@@ -25,7 +28,11 @@ const Profile = () => {
       
 
     const { data, isLoading, error } =  useFetch('job-details', {
+<<<<<<< HEAD
       job_id: finalData?finalData:"",
+=======
+      job_id: likedJobs?likedJobs:"",
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
       extended_publisher_details: 'false'
       // extended_publisher_details: "false", job_id: "f34DpFVUjgBZ-AAAAAA=="
     });
@@ -67,11 +74,21 @@ const Profile = () => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ padding: SIZES.medium }}>
+<<<<<<< HEAD
   <Company
   companyLogo={user?.avatar+'.jpg'}
   jobTitle={user?.displayName}
   companyName={user?.email}
 />
+=======
+{user??(
+  <Company
+  companyLogo={user.avatar+'.jpg'}
+  jobTitle={user.displayName}
+  companyName={user.email}
+/>
+)}
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
             
     
         </View>

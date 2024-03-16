@@ -1,5 +1,6 @@
 
 import { useRouter } from "expo-router";
+
 import {
   View,
   Text,
@@ -11,22 +12,34 @@ import styles from "./nearbyjobs.style";
 import { COLORS, SIZES } from "../../../constants";
 import NearbyjobCard from "../../common/cards/nearby/NearbyJobCard";
 import useFetch from "../../../hook/useFetch";
+import { useCallback,useEffect, useState } from "react";
+import { addDoc, collection,doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { app, auth } from '../../../firebase/config';
+import { useAuth } from  '../../../firebase/AuthContext';
+import { useLikedJob } from  '../../../hook/context/LikedJobContext';
 
-const Nearbyjobs = () => {
+const Nearbyjobs = (props) => {
   const router = useRouter();
+  // Initialize likedJobs as an object with job_id as keys
+
 
   const { data, isLoading, error } = useFetch("search", {
-    query: "Java  developer",
+    query: `NearBay jobs for software developers in ${props.city}`,
     num_pages: "1",
+    radius: '1',
   });
 
-  console.log("Data ali:", data);
+
+  
+ 
+   
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>NearBy jobs</Text>
-        <TouchableOpacity>
-          <Text style={styles.headerBtn}>Show all</Text>
+        <TouchableOpacity onPress={()=>{router.push(`/search/NearBay jobs for software developers in ${props.city}`)}} >
+          <Text style={styles.headerBtn} >Show all</Text>
         </TouchableOpacity>
       </View>
 
@@ -37,11 +50,15 @@ const Nearbyjobs = () => {
           <Text>Something went wrong</Text>
         ) : (
           data?.map((job)=>{
-            return( <NearbyjobCard
+            return( 
+              
+            <NearbyjobCard
             job={job}
             key={`nearby-job-${job?.job_id}`}
             handleNavigate={() => router.push(`/job-details/${job.job_id}`)}
-          />)
+
+          />
+          )
           }
            
           )

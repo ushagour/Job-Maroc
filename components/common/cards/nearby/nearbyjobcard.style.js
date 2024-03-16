@@ -42,6 +42,18 @@ const styles = StyleSheet.create({
     marginTop: 3,
     textTransform: "capitalize",
   },
+  likeButton: {
+    flexDirection: 'row', // Align icon and text horizontally
+    padding: 8,
+    borderRadius: 4,
+    alignItems: 'center',
+  },
+  likeIcon: {
+    width: 24,
+    height: 24,
+    tintColor: COLORS.tertiary, // You can set the color of the icon
+  },
+ 
 });
 
 export default styles;

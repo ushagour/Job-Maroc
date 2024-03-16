@@ -106,7 +106,11 @@ export const AuthProvider = ({ children }) => {
         const userDocSnap = querySnapshot.docs[0];
         const userData = userDocSnap.data();
         setUser(userData);
+<<<<<<< HEAD
         // console.log(userData);    
+=======
+        console.log(userData);    
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
       } else {
         console.log("User profile not found.");
         setUser(null);
@@ -130,7 +134,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
+<<<<<<< HEAD
     <AuthContext.Provider value={{ user, signIn, signOut,likedJobs}}>
+=======
+    <AuthContext.Provider value={{ user, signIn, signOut,likedJobs,handelLogingGoogle}}>
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
       {children}
     </AuthContext.Provider>
   );

@@ -2,7 +2,11 @@
 import { initializeApp } from "firebase/app";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+<<<<<<< HEAD
 // import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+=======
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+>>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 
 // import { getAnalytics } from "firebase/analytics";
 // Import the functions you need from the SDKs you need
