@@ -5,9 +5,25 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-font"
     ],
     "name": "Course-app",
-    "slug": "Course-app"
+    "slug": "Course-app",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f25d97d7-d655-49bf-b37d-4165b9e19cb4"
+      }
+    },
+    "android": {
+      "package": "com.ushagour.Courseapp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.ushagour.Courseapp"
+    },
+    "owner": "ushagour"
   }
 }

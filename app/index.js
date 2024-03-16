@@ -13,6 +13,22 @@ import {
 const Home = () => {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("");
+  const {user} = useAuth();
+
+ function redirectMe(){
+
+    if (user!== null) {
+     router.push(`/profile/profile`)
+     
+    } else {
+
+      router.push(`/profile/login/Login`);
+
+    }
+
+
+  }
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
