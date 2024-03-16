@@ -45,16 +45,19 @@ const Footer = ({url,jobId}) => {//{param1,param 2}
       ):(
         <>
 
+{user && jobId (
 
-        <TouchableOpacity style={styles.likeBtn} onPress={()=>{handleLikeButtonPress(jobId)}} >
-        <Image
-          source={islikedJob ? icons.heart:icons.heartOutline}
+<TouchableOpacity style={styles.likeBtn} onPress={()=>{handleLikeButtonPress(jobId)}} >
+<Image
+  source={islikedJob ? icons.heart:icons.heartOutline}
 
-          resizeMode='contain'
-          style={styles.likeBtnImage}
-        />
-        </TouchableOpacity>
-        
+  resizeMode='contain'
+  style={styles.likeBtnImage}
+/>
+</TouchableOpacity>
+
+)}
+      
               <TouchableOpacity
                 style={styles.applyBtn}
                 onPress={() => Linking.openURL(url)}

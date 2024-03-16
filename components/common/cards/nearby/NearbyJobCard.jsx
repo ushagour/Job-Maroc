@@ -68,7 +68,7 @@ ps1.
   ps.use this jsx synthax insted of (user ? )check 
   */}
 
-{user && 
+{user && job &&
       (<TouchableOpacity onPress={()=>{handleLikeButtonPress(job)}} style={styles.likeButton}>
         <Image
           source={islikedJob ? require('../../../../assets/icons/heart.png') : require('../../../../assets/icons/heart-ol.png')}
