@@ -16,7 +16,21 @@ import { useAuth } from  '../firebase/AuthContext';
 const Home = () => {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("");
+  const {user} = useAuth();
 
+ function redirectMe(){
+
+    if (user!== null) {
+     router.push(`/profile/profile`)
+     
+    } else {
+
+      router.push(`/profile/login/Login`);
+
+    }
+
+
+  }
 
   // console.log("con"+user.uid);
 
@@ -34,7 +48,7 @@ const Home = () => {
           ),
           headerRight: () => (
             <ScreenHeaderBtn iconUrl={images.profile} dimension='70%'
-             HandelOnPress={()=>{ router.push(`/profile/profile`)}} />
+             HandelOnPress={()=>{ redirectMe() }} />
           ),
           headerTitle: "",
         }}

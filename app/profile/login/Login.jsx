@@ -1,11 +1,11 @@
 import React,{useEffect, useState} from 'react'
-import { SafeAreaView,KeyboardAvoidingView, StyleSheet, Text, View,TextInput,TouchableOpacity,Image } from 'react-native'
+import { SafeAreaView,KeyboardAvoidingView, StyleSheet, Text, View,TextInput,TouchableOpacity,Image,alert } from 'react-native'
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { Stack,useRouter } from 'expo-router'
-import { signInWithEmailAndPassword, getAuth  } from "firebase/auth";
-// import { GoogleSignin } from 'react-native-google-signin';
+import { signInWithEmailAndPassword, getAuth,handelLogingGoogle  } from "firebase/auth";
 import {app,auth} from "../../../firebase/config";
 import { COLORS, FONT, SIZES } from "../../../constants";
+// import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
 import styles from "./login.style";
 
@@ -19,6 +19,30 @@ const Login = () => {
 
     const [Email,SetEmail]=useState('');
     const [Password,SetPassword]=useState('');
+
+
+    
+// // Initialize Google Sign-In
+// GoogleSignin.configure({
+//   webClientId: '644887007501-ege6mvgilb3qs2qhgbvoctsjuc3q4l0o.apps.googleusercontent.com',
+  
+//   // From Firebase console
+// });
+
+// const handleGoogleSignIn = async () => {
+//   try {
+//     // Sign in with Google
+//     const { idToken } = await GoogleSignin.signIn();
+//     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+//     // Sign in with Firebase
+//     await auth().signInWithCredential(googleCredential);
+
+//     // User is signed in
+//   } catch (error) {
+//     console.error('Google sign-in error:', error);
+//   }
+// };
 
 
 
@@ -37,7 +61,6 @@ const Login = () => {
 
         //   setLoading(false);
         } catch (error) {
-            console.log(error);
           // Handle login error
           if (error.code === "auth/user-not-found") {
             alert("user not found !");
@@ -123,9 +146,9 @@ const Login = () => {
         </View>
         <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
       </View>
-      {/* <TouchableOpacity 
+      <TouchableOpacity 
       
-      onPress={() => handelLogingGoogle}  // for navigation
+      onPress={() => handleGoogleSignIn}  // for navigation
       style={styles.boxStyle}
       shadow={3}>
       <Image
@@ -138,22 +161,27 @@ const Login = () => {
               uri: "https://www.transparentpng.com/thumb/google-logo/colorful-google-logo-transparent-clipart-download-u3DWLj.png",
             }}
             alt="image"
-          /> */}
-      {/* <Image
+          /> 
+    </TouchableOpacity>
+    <TouchableOpacity 
+      
+      onPress={() => handelLogingGoogle}  // for navigation
+      style={styles.boxStyle}
+      shadow={3}>
+  <Image
             
             roundedTop="lg"
             style={styles.imageStyle}
           
 
             source={{
-              uri: "https://www.transparentpng.com/thumb/google-logo/colorful-google-logo-transparent-clipart-download-u3DWLj.png",
+              uri: "https://www.transparentpng.com/thumb/logos/github-logo-png-rtT9Sy.png",
             }}
             alt="image"
-          /> */}
+          />
+      </TouchableOpacity>
 
-
-      {/* </TouchableOpacity> */}
-
+          
     </KeyboardAvoidingView>
     </SafeAreaView>
   )

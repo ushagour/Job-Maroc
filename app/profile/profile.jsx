@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, FlatList, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Button, FlatList, ScrollView, Text, View,Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../firebase/AuthContext';
 import { getDoc, getFirestore, doc } from 'firebase/firestore';
 import { app } from '../../firebase/config';
 import { Stack, useRouter } from 'expo-router';
-import { COLORS, icons, SIZES } from '../../constants';
+import { COLORS, icons, images, SIZES } from '../../constants';
 import  useFetch  from '../../hook/useFetch'; // Assuming useFetch is properly exported from useFetch.js
 import { ScreenHeaderBtn, Company, NearbyJobCard } from '../../components';
 const Profile = () => {
@@ -18,28 +18,18 @@ const Profile = () => {
   
 
   useEffect(() => {
-    // ()=>{
-  
-    // }
+    setFinalData(likedJobs)
 
-
-    if (user!== null) {
-      setFinalData(likedJobs)
-
-
-     console.log("alii data"+likedJobs); 
-
-     
-    } else {
-      router.push(`/profile/login/Login`);
-    }
   }, []);
       
+
     const { data, isLoading, error } =  useFetch('job-details', {
-      job_id: likedJobs,
+      job_id: likedJobs?likedJobs:"",
       extended_publisher_details: 'false'
-      // extended_publisher_details: "false", job_id: "f34DpFVUZ86jgBZ-AAAAAA=="
+      // extended_publisher_details: "false", job_id: "f34DpFVUjgBZ-AAAAAA=="
     });
+  
+
 
     // const handleRefresh = () => {
     //   setIsFetching(true);
@@ -76,17 +66,15 @@ const Profile = () => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ padding: SIZES.medium }}>
-          {user ? (
-            <Company
-              companyLogo={user.avatarURL + '.jpg'}
-              jobTitle={user.name}
-              companyName={user.email}
-            />
-          ) : (
-            <View>
-              <Button title="Login" onPress={() => router.push(`/profile/login/Login`)} />
-            </View>
-          )}
+{user??(
+  <Company
+  companyLogo={user.avatar+'.jpg'}
+  jobTitle={user.displayName}
+  companyName={user.email}
+/>
+)}
+            
+    
         </View>
       </ScrollView>
       {isLoading ? (

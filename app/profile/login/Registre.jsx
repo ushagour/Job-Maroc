@@ -4,7 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { app, auth } from '../../../firebase/config';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { COLORS } from '../../../constants';
+import { COLORS,images } from '../../../constants';
 
 const Registre = () => {
   const router = useRouter();
@@ -20,6 +20,7 @@ const Registre = () => {
       // Validate inputs
       if (!email || !displayName || !password || !confirmPassword) {
         setError('All fields are required');
+        alert(error)
         return;
       }
 
@@ -37,9 +38,10 @@ const Registre = () => {
         await addDoc(usersCollection, {
           uid: user.uid,
           displayName: displayName,
+          avatar: null,
           email: email,
         });
-  
+        
         console.log(`User with UID ${user.uid} registered successfully`);
         router.push(`/profile/profile`);
       } catch (error) {
@@ -52,6 +54,7 @@ const Registre = () => {
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Stack.Screen options={{ headerShown: false }}>
         <View style={styles.headerwrapper}>
+          <Text>ali</Text>
           <Text style={styles.headerTitle}>Register</Text>
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </View>
