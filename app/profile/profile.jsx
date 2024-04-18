@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, FlatList, ScrollView, Text, View,Image } from 'react-native';
+import { ActivityIndicator,TouchableOpacity, Button, FlatList, ScrollView, Text, View,Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../firebase/AuthContext';
-import { getDoc, getFirestore, doc } from 'firebase/firestore';
-import { app } from '../../firebase/config';
 import { Stack, useRouter } from 'expo-router';
 import { COLORS, icons, images, SIZES } from '../../constants';
 import  useFetch  from '../../hook/useFetch'; // Assuming useFetch is properly exported from useFetch.js
 import { ScreenHeaderBtn, Company, NearbyJobCard } from '../../components';
+import styles from './profile.style';
 const Profile = () => {
   const router = useRouter();
   const [finalData, setFinalData] = useState();
-  // const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const { user, signOut,likedJobs } = useAuth();
   
 
   useEffect(() => {
-    setFinalData(likedJobs)
-
+    // setFinalData(likedJobs)
+  console.log(user)    
   }, []);
       
 
@@ -39,13 +37,7 @@ const Profile = () => {
 
     // };
   
-    // const handleScroll = (event) => {
-    //   const { contentOffset } = event.nativeEvent;
-    //   if (contentOffset.y <= 0) {
-    //     // User has scrolled to the top of the list
-    //     handleRefresh();
-    //   }
-    // };
+ 
 
 
   return (
@@ -64,20 +56,22 @@ const Profile = () => {
           headerTitle: '',
         }}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ padding: SIZES.medium }}>
-{user??(
-  <Company
-  companyLogo={user.avatar+'.jpg'}
-  jobTitle={user.displayName}
-  companyName={user.email}
-/>
-)}
-            
-    
+   <View style={styles.container}>
+      <View style={styles.userInfoHeader}>
+        <Image source={{ uri: user.avatar }} style={styles.profilePicture} />
+        <View style={styles.userInfo}>
+          <Text style={styles.userName}>{user.displayName}</Text>
+          {user.email && <Text style={styles.bio}>{user.email}</Text>}
         </View>
-      </ScrollView>
-      {isLoading ? (
+        <TouchableOpacity style={styles.editButton}>
+          <Text style={styles.editButtonText}>Edit Profile</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.profileContent}>
+        <Text style={styles.contentText}>My lked jobs :</Text>
+
+
+  {isLoading ? (
         <ActivityIndicator size="large" color={COLORS.primary} />
       ) : data.length > 0 ? (
         <View>
@@ -92,10 +86,7 @@ const Profile = () => {
             )}
             keyExtractor={(item) => item.job_id}
             contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
-            // refreshing={isFetching}
-            // onRefresh={handleRefresh}
-            // onScroll={handleScroll}
-            // scrollIndicatorInsets={{ top: 1 }} 
+    
           />
         </View>
       )
@@ -103,8 +94,16 @@ const Profile = () => {
       (<Text>Something went wrong</Text>)
       
       }
+
+
+        
+      </View>
+    </View>
+    
     </SafeAreaView>
   );
 };
+
+
 
 export default Profile;
