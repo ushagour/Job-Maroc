@@ -10,11 +10,12 @@ const Footer = ({url,jobId}) => {//{param1,param 2}
         const { user } = useAuth();
         const router = useRouter();
         const { updateOrCreateLikedJobs} =  useLikedJob();
-
         const [islikedJob,  setisLikedJob] = useState(false);
         
+        // console.log(jobId)
         const handleLikeButtonPress = (jobId) => {
           const userId = user ? user.uid : '';
+
 
           // Toggle the liked status for the specific job
             // setLikedJobs((prevLikedJobs) => ({
@@ -45,7 +46,7 @@ const Footer = ({url,jobId}) => {//{param1,param 2}
       ):(
         <>
 
-{user && jobId (
+
 
 <TouchableOpacity style={styles.likeBtn} onPress={()=>{handleLikeButtonPress(jobId)}} >
 <Image
@@ -56,7 +57,6 @@ const Footer = ({url,jobId}) => {//{param1,param 2}
 />
 </TouchableOpacity>
 
-)}
       
               <TouchableOpacity
                 style={styles.applyBtn}

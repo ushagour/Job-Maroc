@@ -13,7 +13,7 @@ export const LikedJobProvider = ({ children }) => {
 
     const updateOrCreateLikedJobs = async (uid, newLikedJobId) => {
         try {
-            console.log(newLikedJobId);
+            // console.log(newLikedJobId);
           const userDocRef = doc(firestore, 'likedJobs',  uid);
           const userDocSnap = await getDoc(userDocRef);
           
@@ -34,7 +34,7 @@ export const LikedJobProvider = ({ children }) => {
           } else {
             // If the document doesn't exist, create it with the liked jobs field
             await setDoc(userDocRef, { likedJobs: [newLikedJobId] });
-            console.log(`New document created for user ${ user.uid} with liked jobs.`);
+            console.log(`New document created for user with liked jobs.`);
           }
         } catch (error) {
           console.error('Error updating or creating liked jobs:', error.message);
