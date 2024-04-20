@@ -1,9 +1,5 @@
 import React,{useEffect, useState} from 'react'
-<<<<<<< HEAD
-import { SafeAreaView,KeyboardAvoidingView, StyleSheet, Text, View,TextInput,TouchableOpacity,Image, Alert } from 'react-native'
-=======
 import { SafeAreaView,KeyboardAvoidingView, StyleSheet, Text, View,TextInput,TouchableOpacity,Image,alert } from 'react-native'
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { Stack,useRouter } from 'expo-router'
 import { signInWithEmailAndPassword, getAuth,handelLogingGoogle  } from "firebase/auth";
@@ -19,21 +15,12 @@ import styles from "./login.style";
 const Login = () => {
     const firestore = getFirestore(app);
     const router =useRouter();
-<<<<<<< HEAD
-    const [Email,SetEmail]=useState('');
-    const [Password,SetPassword]=useState('');
-    const [error,SetError]=useState('');
-
-
-  
-=======
 
 
     const [Email,SetEmail]=useState('');
     const [Password,SetPassword]=useState('');
 
 
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
     
 // // Initialize Google Sign-In
 // GoogleSignin.configure({
@@ -76,27 +63,6 @@ const Login = () => {
         } catch (error) {
           // Handle login error
           if (error.code === "auth/user-not-found") {
-<<<<<<< HEAD
-    
-            Alert.alert("user not found !")
-
-          }
-          if (error.code === "auth/wrong-password") {
-         
-            Alert.alert("wrong password !")
-
-          }
-          if (error.code === "auth/too-many-requests") {
-            Alert.alert("too many requests try later !")
-
-          }
-        //   setLoading(false);
-        // Alert(error);
-        }
-      }
-
-      
-=======
             alert("user not found !");
             // setLoginFailed(true);
           }
@@ -110,7 +76,6 @@ const Login = () => {
         //   setLoading(false);
         }
       }
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
   return (
     <SafeAreaView style={{flex:1,backgroundColor:COLORS.lightWhite}}>
  <Stack.Screen
@@ -198,11 +163,7 @@ const Login = () => {
             alt="image"
           /> 
     </TouchableOpacity>
-<<<<<<< HEAD
-    {/* <TouchableOpacity 
-=======
     <TouchableOpacity 
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
       
       onPress={() => handelLogingGoogle}  // for navigation
       style={styles.boxStyle}
@@ -218,11 +179,7 @@ const Login = () => {
             }}
             alt="image"
           />
-<<<<<<< HEAD
-      </TouchableOpacity> */}
-=======
       </TouchableOpacity>
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 
           
     </KeyboardAvoidingView>

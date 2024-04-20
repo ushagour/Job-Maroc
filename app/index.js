@@ -32,10 +32,7 @@ const Home = () => {
 
   }
 
-<<<<<<< HEAD
-=======
   // console.log("con"+user.uid);
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 
   return (
     <> 

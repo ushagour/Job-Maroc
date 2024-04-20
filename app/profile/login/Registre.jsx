@@ -10,10 +10,6 @@ const Registre = () => {
   const router = useRouter();
   const firestore = getFirestore(app);
   const [displayName, setDisplayName] = useState('');
-<<<<<<< HEAD
-  const [avatar, setAvatar] = useState('../assets/images/avatar.jpg');
-=======
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -42,11 +38,7 @@ const Registre = () => {
         await addDoc(usersCollection, {
           uid: user.uid,
           displayName: displayName,
-<<<<<<< HEAD
-          avatar: avatar,
-=======
-          avatar: null,
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
+          avatar: "../avatar.jpg",
           email: email,
         });
         
@@ -60,12 +52,6 @@ const Registre = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-<<<<<<< HEAD
-      <View style={styles.headerwrapper}>
-          <Text style={styles.headerTitle}>Register</Text>
-          {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        </View>
-=======
       <Stack.Screen options={{ headerShown: false }}>
         <View style={styles.headerwrapper}>
           <Text>ali</Text>
@@ -73,7 +59,6 @@ const Registre = () => {
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </View>
       </Stack.Screen>
->>>>>>> fbc477da8a7c5759cce2f0013427a68d6119d349
 
       <View style={styles.Inputscontainer}>
         <TextInput
