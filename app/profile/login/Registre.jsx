@@ -38,7 +38,7 @@ const Registre = () => {
         await addDoc(usersCollection, {
           uid: user.uid,
           displayName: displayName,
-          avatar: null,
+          avatar: "../avatar.jpg",
           email: email,
         });
         

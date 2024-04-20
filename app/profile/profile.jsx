@@ -17,9 +17,12 @@ const Profile = () => {
 
   useEffect(() => {
     // setFinalData(likedJobs)
-  console.log(user)    
+      console.log(user)    
   }, []);
       
+  const handleLogout = () => {
+    signOut();
+  };
 
     const { data, isLoading, error } =  useFetch('job-details', {
       job_id: likedJobs?likedJobs:"",
@@ -51,20 +54,20 @@ const Profile = () => {
             <ScreenHeaderBtn iconUrl={icons.left} dimension="60%" HandelOnPress={() => router.back()} />
           ),
           headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.logout} dimension="60%" HandelOnPress={signOut} />
+            <ScreenHeaderBtn iconUrl={icons.logout} dimension="60%" HandelOnPress={handleLogout} />
           ),
           headerTitle: '',
         }}
       />
    <View style={styles.container}>
       <View style={styles.userInfoHeader}>
-        <Image source={{ uri: user.avatar }} style={styles.profilePicture} />
+        <Image source={{ uri: user?.avatar }} style={styles.profilePicture} />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{user.displayName}</Text>
-          {user.email && <Text style={styles.bio}>{user.email}</Text>}
+          <Text style={styles.userName}>{user?.displayName}</Text>
+          {user && user.email && <Text style={styles.bio}>{user.email}</Text>}
         </View>
         <TouchableOpacity style={styles.editButton}>
-          <Text style={styles.editButtonText}>Edit Profile</Text>
+          <Text style={styles.editButtonText}></Text>
         </TouchableOpacity>
       </View>
       <View style={styles.profileContent}>

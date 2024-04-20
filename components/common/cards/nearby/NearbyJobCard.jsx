@@ -10,16 +10,16 @@ import { app } from '../../../../firebase/config';
 import { useLikedJob } from  '../../../../hook/context/LikedJobContext';
 
 
-const NearbyJobCard = ({ job, handleNavigate }) => {
+const NearbyJobCard = ({ job,job_id, handleNavigate }) => {
 
     const { updateOrCreateLikedJobs} =  useLikedJob();
     const { user} = useAuth();
     const firestore = getFirestore(app);
     const [islikedJob,  setisLikedJob] = useState(false);
 
-    const handleLikeButtonPress = (jobId) => {
+    const handleLikeButtonPress = (job_id) => {
       const userId = user ? user.uid : '';
-      console.log(jobId);
+      // console.log(jobId);
         // Toggle the liked status for the specific job
         // setLikedJobs((prevLikedJobs) => ({
         //   ...prevLikedJobs,
@@ -34,7 +34,7 @@ const NearbyJobCard = ({ job, handleNavigate }) => {
         }
     
         // Save liked job to the database (if needed)
-        updateOrCreateLikedJobs(userId,jobId);
+        updateOrCreateLikedJobs(userId,job_id);
       };
 
 
@@ -69,7 +69,7 @@ ps1.
   */}
 
 {user && job &&
-      (<TouchableOpacity onPress={()=>{handleLikeButtonPress(job)}} style={styles.likeButton}>
+      (<TouchableOpacity onPress={()=>{handleLikeButtonPress(job_id)}} style={styles.likeButton}>
         <Image
           source={islikedJob ? require('../../../../assets/icons/heart.png') : require('../../../../assets/icons/heart-ol.png')}
           style={styles.likeIcon}
