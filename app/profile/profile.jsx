@@ -63,7 +63,7 @@ const Profile = () => {
           headerShadowVisible: false,
           headerBackVisible: false,
           headerLeft: () => (
-            <ScreenHeaderBtn iconUrl={icons.left} dimension="60%" HandelOnPress={() => router.back()} />
+<ScreenHeaderBtn iconUrl={icons.home} dimension="60%" HandelOnPress={() => router.push('/')} />
           ),
           headerRight: () => (
             <ScreenHeaderBtn iconUrl={icons.logout} dimension="60%" HandelOnPress={handleLogout} />
@@ -78,7 +78,7 @@ const Profile = () => {
           {user && user.email && <Text style={styles.bio}>{user.email}</Text>}
         </View>
         <TouchableOpacity style={styles.editButton}>
-        <ScreenHeaderBtn iconUrl={icons.edit} dimension="60%" style={styles.editButtonText} HandelOnPress={handleLogout} />
+        <ScreenHeaderBtn iconUrl={icons.edit} dimension="60%" style={styles.editButtonText} HandelOnPress={() => router.push('/profile/EditProfile')} />
 
         </TouchableOpacity>
       </View>
@@ -101,7 +101,10 @@ const Profile = () => {
               <Swipeable
                 renderRightActions={() => (
                   <TouchableOpacity onPress={() => handleDeslike(item.job_id)} style={styles.rightAction}>
-                    <Text style={styles.actionText}>Delete</Text>
+                    <Text style={styles.actionText}>
+                      
+                      
+                      Delete</Text>
                   </TouchableOpacity>
                 )}
               >
