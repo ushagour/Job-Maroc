@@ -9,6 +9,8 @@ import location from "../assets/icons/location.png";
 import chevronLeft from '../assets/icons/chevron-left.png'
 import chevronRight from '../assets/icons/chevron-right.png'
 import logout from '../assets/icons/logout.png'
+import edit from '../assets/icons/edit.png';
+import deleteIcon from '../assets/icons/delete.png';
 
 export default {
   heart,
@@ -21,5 +23,7 @@ export default {
   location,
   chevronLeft,
   logout,
-  chevronRight
+  chevronRight,
+  edit,
+  deleteIcon
 };

@@ -6,7 +6,7 @@ import  {icons, SIZES} from "../../../constants"
 import { useAuth } from  '../../../firebase/AuthContext';
 
 const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
-  const { user,profile } = useAuth();
+  const { user } = useAuth();
   const displayName = user ? user.displayName : '';
 
     

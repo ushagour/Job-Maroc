@@ -11,8 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    // borderBottomWidth: 1,
   },
   profilePicture: {
     width: 80,
@@ -41,8 +40,38 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   contentText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 8,
   },
+
+
+// swipeable style 
+  item: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  rightAction: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+  },
+  actionText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+
+
+
+
+
 });
+
+
+
+
+
+
+
 export default styles;

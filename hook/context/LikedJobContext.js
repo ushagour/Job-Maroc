@@ -43,7 +43,33 @@ export const LikedJobProvider = ({ children }) => {
 
 
 
-
+      const removeLikedJob = async (uid, likedJobIdToRemove) => {
+        try {
+          const userDocRef = doc(firestore, 'likedJobs', uid);
+          const userDocSnap = await getDoc(userDocRef);
+      
+          if (userDocSnap.exists()) {
+            const currentLikedJobs = userDocSnap.data().likedJobs || [];
+      
+            // Check if the liked job ID to remove exists in the array
+            if (currentLikedJobs.includes(likedJobIdToRemove)) {
+              // Filter out the liked job ID to remove from the array
+              const updatedLikedJobs = currentLikedJobs.filter(id => id !== likedJobIdToRemove);
+              // Update the Firestore document with the updated array
+              await setDoc(userDocRef, { likedJobs: updatedLikedJobs });
+      
+              console.log('Liked job removed successfully.');
+            } else {
+              console.log('Job ID not found in the liked jobs array.');
+            }
+          } else {
+            console.log('User document not found.');
+          }
+        } catch (error) {
+          console.error('Error removing liked job:', error.message);
+        }
+      };
+      
 
 // const addToLikes = async (jobId,user) => {
 //     try {      
@@ -56,7 +82,7 @@ export const LikedJobProvider = ({ children }) => {
 //   };
 
   return (
-    <LikedJobContext.Provider value={{updateOrCreateLikedJobs}}>
+    <LikedJobContext.Provider value={{updateOrCreateLikedJobs,removeLikedJob}}>
       {children}
     </LikedJobContext.Provider>
   );
