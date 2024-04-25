@@ -5,7 +5,8 @@ import Welcome from "./home/welcome/Welcome";
 import Nearbyjobs from "./home/nearby/Nearbyjobs";
 import Popularjobs from "./home/popular/Popularjobs";
 
-// job details screen
+// job details screen 
+//TODO SEE WHAT HAPENS HERE 
 import Company from "./jobdetails/company/Company";
 import { default as JobTabs } from "./jobdetails/tabs/Tabs";
 import { default as JobAbout } from "./jobdetails/about/About";
@@ -14,6 +15,12 @@ import Specifics from "./jobdetails/specifics/Specifics";
 
 // common
 import NearbyJobCard from "./common/cards/nearby/NearbyJobCard";
+
+
+
+//profile
+import LikedJ  from "./profile/LikedJ";
+
 
 export {
   ScreenHeaderBtn,
@@ -25,5 +32,6 @@ export {
   JobAbout,
   JobFooter,
   Specifics,
-  NearbyJobCard
+  NearbyJobCard,
+  LikedJ
 };

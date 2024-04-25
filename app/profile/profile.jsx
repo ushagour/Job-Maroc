@@ -1,59 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator,TouchableOpacity, Button, FlatList, ScrollView, Text, View,Image } from 'react-native';
+import { ActivityIndicator, TouchableOpacity, Text, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../firebase/AuthContext';
 import { Stack, useRouter } from 'expo-router';
-import { COLORS, icons, images, SIZES } from '../../constants';
-import  useFetch  from '../../hook/useFetch'; // Assuming useFetch is properly exported from useFetch.js
-import { ScreenHeaderBtn, Company, NearbyJobCard } from '../../components';
-import { useLikedJob } from  '../../hook/context/LikedJobContext';
-import { Swipeable } from 'react-native-gesture-handler';
-
-
+import { COLORS, icons, SIZES } from '../../constants';
+import { ScreenHeaderBtn, LikedJ } from '../../components';
+import { useLikedJob } from '../../hook/context/LikedJobContext';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 import styles from './profile.style';
+
 const Profile = () => {
   const router = useRouter();
-  const [finalData, setFinalData] = useState();
-  const [isFetching, setIsFetching] = useState(false);
+  const { user, signOut } = useAuth();
+  const { removeLikedJob } = useLikedJob();
 
-  const { user, signOut,likedJobs } = useAuth();
-  const { removeLikedJob} =  useLikedJob();
+  const [loading, setLoading] = useState(true);
+  const [likedJobs, setLikedJobs] = useState(null); // Define likedJobs state with initial value null
 
+  const getLikedJobs = async () => {
+    try {
+      const firestore = getFirestore();
+      const userDocRef = doc(firestore, 'likedJobs', user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const likedJobsData = userDocSnap.data().likedJobs || [];
+        const joinedLikedJobs = likedJobsData.join(',');
+        setLikedJobs(joinedLikedJobs);
+      } else {
+        console.log("No liked jobs found for this user.");
+        setLikedJobs(""); // Set likedJobs to empty string if no liked jobs found
+      }
+    } catch (error) {
+      console.error('Error fetching liked jobs:', error);
+      setLikedJobs(""); // Set likedJobs to empty string in case of error
+    } finally {
+      setLoading(false); // Set loading to false after fetching liked jobs
+    }
+  };
 
   useEffect(() => {
-    // setFinalData(likedJobs)
-      console.log(user)    
+    getLikedJobs(); // Fetch liked jobs data when component mounts
   }, []);
-      
+
   const handleLogout = () => {
     signOut();
   };
 
-    const { data, isLoading, error,refetch } =  useFetch('job-details', {
-      job_id: likedJobs?likedJobs:"",
-      extended_publisher_details: 'false'
-      // extended_publisher_details: "false", job_id: "f34DpFVUjgBZ-AAAAAA=="
-    });
-  
-
-
-    // const handleRefresh = () => {
-    //   setIsFetching(true);
-    //   refetch();
-    //   setIsFetching(false);
-
-
-    // };
-    const handleDeslike = (likedJobIdToRemove) => {
-      removeLikedJob(user.uid,likedJobIdToRemove);
-      refetch();//TODO had function dyal refresh khssni nkmlha afetr  removing liked jobs 
-
-
-    };
-  
- 
-
+  const handleDeslike = (likedJobIdToRemove) => {
+    removeLikedJob(user.uid, likedJobIdToRemove);
+    // TODO You can optionally call getLikedJobs() here to refresh liked jobs after removing one
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
@@ -63,7 +61,7 @@ const Profile = () => {
           headerShadowVisible: false,
           headerBackVisible: false,
           headerLeft: () => (
-<ScreenHeaderBtn iconUrl={icons.home} dimension="60%" HandelOnPress={() => router.push('/')} />
+            <ScreenHeaderBtn iconUrl={icons.home} dimension="60%" HandelOnPress={() => router.push('/')} />
           ),
           headerRight: () => (
             <ScreenHeaderBtn iconUrl={icons.logout} dimension="60%" HandelOnPress={handleLogout} />
@@ -78,59 +76,19 @@ const Profile = () => {
           {user && user.email && <Text style={styles.bio}>{user.email}</Text>}
         </View>
         <TouchableOpacity style={styles.editButton}>
-        <ScreenHeaderBtn iconUrl={icons.edit} dimension="60%" style={styles.editButtonText} HandelOnPress={() => router.push('/profile/EditProfile')} />
-
+          <ScreenHeaderBtn iconUrl={icons.edit} dimension="60%" style={styles.editButtonText} HandelOnPress={() => router.push('/profile/EditProfile')} />
         </TouchableOpacity>
       </View>
       <View style={styles.profileContent}>
-        <Text style={styles.contentText}>My lked jobs :</Text>
-
-
-
-
-        
+        <Text style={styles.contentText}>My liked jobs :</Text>
+        {loading ? ( // Show loading indicator while fetching liked jobs
+          <ActivityIndicator size="large" color={COLORS.primary} />
+        ) : (
+          <LikedJ jobs={likedJobs} deslike={handleDeslike} />
+        )}
       </View>
-      {isLoading ? (
-        <ActivityIndicator size="large" color={COLORS.primary} />
-      ) : data.length > 0 ? (
-        <View>
-       
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <Swipeable
-                renderRightActions={() => (
-                  <TouchableOpacity onPress={() => handleDeslike(item.job_id)} style={styles.rightAction}>
-                    <Text style={styles.actionText}>
-                      
-                      
-                      Delete</Text>
-                  </TouchableOpacity>
-                )}
-              >
-                <NearbyJobCard
-                  isLiked={true}
-                  job={item}
-                  handleNavigate={() => router.push(`/job-details/${item.job_id}`)}
-                />
-              </Swipeable>
-            )}
-            keyExtractor={(item) => item.job_id}
-            contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
-          />
-        </View>
-      )
-      :
-      (<Text>Something went wrong</Text>)
-      
-      }
-
-
-    
     </SafeAreaView>
   );
 };
-
-
 
 export default Profile;

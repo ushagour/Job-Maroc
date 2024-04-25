@@ -11,15 +11,13 @@ const router = useRouter();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [likedJobs, setLikedJobs] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       // Check if userAuth exists and is not null
       if (userAuth) {
         // If userAuth exists, set the user object to the state
-        getLikedJobs(userAuth)
+        // getLikedJobs(userAuth)
         getUserProfile(userAuth)
 
 
@@ -60,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
       getUserProfile(userCredential.user)
-      getLikedJobs(userCredential.user)
+      // getLikedJobs(userCredential.user)
 
     } catch (error) {
       console.error('Error signing in:', error.message);
@@ -70,28 +68,7 @@ export const AuthProvider = ({ children }) => {
 
 
 
-  const getLikedJobs = async (user) => {
-    try {
-      const userId = user.uid;
-      const firestore = getFirestore(app);
-      const userDocRef = doc(firestore,'likedJobs', userId);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const likedJobsData = userDocSnap.data().likedJobs || [];
-        setLikedJobs(likedJobsData.join(","));
-
-      } else {
-        console.log("No liked jobs found for this user.");
-        setLikedJobs("");
  
-      }
-    } catch (error) { 
-      console.error('Error fetching liked jobs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
  
   const getUserProfile = async (user) => {
@@ -130,7 +107,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut,likedJobs,handelLogingGoogle}}>
+    <AuthContext.Provider value={{ user, signIn, signOut,handelLogingGoogle}}>
       {children}
     </AuthContext.Provider>
   );
