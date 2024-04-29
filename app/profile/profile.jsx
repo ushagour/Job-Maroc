@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../firebase/AuthContext';
 import { Stack, useRouter } from 'expo-router';
 import { COLORS, icons, SIZES } from '../../constants';
-import { ScreenHeaderBtn, LikedJ } from '../../components';
+import { ScreenHeaderBtn, LikedJob } from '../../components';
 import { useLikedJob } from '../../hook/context/LikedJobContext';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
@@ -16,7 +16,21 @@ const Profile = () => {
   const { removeLikedJob } = useLikedJob();
 
   const [loading, setLoading] = useState(true);
-  const [likedJobs, setLikedJobs] = useState(null); // Define likedJobs state with initial value null
+  const [likedJobs, setLikedJobs] = useState(null);
+
+  // Define likedJobs state with initial value null
+/*
+   To ensure that the likedJobs state has the correct initial value before rendering the component,
+  you can use a loading state to indicate that data fetching is in progress.
+  Here's how you can modify your Profile component to handle this:
+  */
+
+
+
+
+
+
+
 
   const getLikedJobs = async () => {
     try {
@@ -42,16 +56,24 @@ const Profile = () => {
 
   useEffect(() => {
     getLikedJobs(); // Fetch liked jobs data when component mounts
+    
   }, []);
 
   const handleLogout = () => {
     signOut();
   };
 
-  const handleDeslike = (likedJobIdToRemove) => {
+  const handleDeslike = async (likedJobIdToRemove) => {
     removeLikedJob(user.uid, likedJobIdToRemove);
+    await getLikedJobs();
+
     // TODO You can optionally call getLikedJobs() here to refresh liked jobs after removing one
   };
+
+
+  const handelrefresh = async ()=>{
+    await getLikedJobs();
+  }
 
   return (
     <SafeAreaView style={{ backgroundColor: COLORS.lightWhite }}>
@@ -84,7 +106,7 @@ const Profile = () => {
         {loading ? ( // Show loading indicator while fetching liked jobs
           <ActivityIndicator size="large" color={COLORS.primary} />
         ) : (
-          <LikedJ jobs={likedJobs} deslike={handleDeslike} />
+          <LikedJob jobs={likedJobs} deslike={handleDeslike} refresh={handelrefresh} />
         )}
       </View>
     </SafeAreaView>

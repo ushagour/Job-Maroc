@@ -19,7 +19,7 @@ import NearbyJobCard from "./common/cards/nearby/NearbyJobCard";
 
 
 //profile
-import LikedJ  from "./profile/LikedJ";
+import LikedJob  from "./likedjobs/LikedJob";
 
 
 export {
@@ -33,5 +33,5 @@ export {
   JobFooter,
   Specifics,
   NearbyJobCard,
-  LikedJ
+  LikedJob
 };
