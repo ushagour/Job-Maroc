@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, ScrollView, View,Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
+import * as Location from 'expo-location';
 
 import { COLORS, icons, images, SIZES } from "../constants";
 
@@ -17,6 +18,34 @@ const Home = () => {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState("");
   const {user} = useAuth();
+  const [city, setCity] = useState(null);
+  const [region, setRegion] = useState(null);
+
+
+  const fetchCityName = async () => {
+    try {
+      // Request permission to access location
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        throw new Error('Permission to access location was denied');
+      }
+  
+      // Get the user's current location
+      let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High });
+  
+      // Get the latitude and longitude from the location object
+      const { latitude, longitude } = location.coords;
+  
+      // Use a reverse geocoding service to get the city name from the coordinates
+      let addressResponse = await Location.reverseGeocodeAsync({ latitude, longitude });
+      let city = addressResponse[0].city;
+      let region = addressResponse[0].region;
+      return {city,region};//it returns an object 
+    } catch (error) {
+      console.error('Error fetching location:', error);
+      return null;
+    }
+  };
 
  function redirectMe(){
 
@@ -31,6 +60,20 @@ const Home = () => {
 
 
   }
+
+
+  useEffect(() => {
+    const getLocation = async () => {
+      const info = await fetchCityName();//async function retuens an object 
+      setCity(info.city);
+      setRegion(info.region);
+      console.log(info.city);
+      console.log(info.region);
+
+    };
+
+    getLocation();
+  }, []);
 
   // console.log("con"+user.uid);
 
@@ -68,11 +111,11 @@ const Home = () => {
             }}
             />
           <Popularjobs
-          country="Morocco"
+          country={region}
 
           />
           <Nearbyjobs
-          city="Rabat"
+          city={region}
 
           
           />
